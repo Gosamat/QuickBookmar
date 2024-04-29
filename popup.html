@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QuickBookmark</title>
-    <link rel="stylesheet" href="popup.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Bookmarks</h1>
-      <ul id="bookmarkList"></ul>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickBookmark</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bookmarks</h1>
+    <input type="text" id="searchInput" placeholder="Search bookmarks...">
+    <ul id="bookmarkList"></ul>
+    <div class="actions">
+      <button id="deleteBookmarkBtn">Delete</button>
+      <button id="editBookmarkBtn">Edit</button>
+      <button id="addBookmarkBtn">Add</button>
     </div>
-    <script src="popup.js"></script>
-  </body>
+  </div>
+  <script src="popup.js"></script>
+</body>
 </html>
