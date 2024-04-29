@@ -2,15 +2,22 @@
   "manifest_version": 3,
   "name": "QuickBookmark",
   "version": "1.0",
-  "description": "A Chrome extension to manage bookmark interactions via keyboard shortcuts.",
+  "description": "Search and open bookmarks with a keyboard shortcut",
   "permissions": ["bookmarks"],
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "images/spaghetti_16px.png",
-      "48": "images/spaghetti_32px.png",
-      "128": "images/spaghetti_128px.png"
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "open-search": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      },
+      "description": "Opens the bookmark search bar"
     }
+  },
+  "action": {
+    "default_popup": "popup.html"
   },
   "icons": {
     "16": "images/spaghetti_16px.png",
