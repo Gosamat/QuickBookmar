@@ -9,12 +9,14 @@
 <body>
   <div class="container">
     <h1>Bookmarks</h1>
-    <input type="text" id="searchInput" placeholder="Search bookmarks...">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search bookmarks...">
+      <button id="addBookmarkBtn">Add Bookmark</button>
+    </div>
     <ul id="bookmarkList"></ul>
     <div class="actions">
-      <button id="deleteBookmarkBtn">Delete</button>
-      <button id="editBookmarkBtn">Edit</button>
-      <button id="addBookmarkBtn">Add</button>
+      <button id="deleteBookmarkBtn">Delete Selected</button>
+      <button id="editBookmarkBtn">Edit Selected</button>
     </div>
   </div>
   <script src="popup.js"></script>
