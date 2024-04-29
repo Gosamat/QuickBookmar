@@ -7,18 +7,12 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Bookmarks</h1>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search bookmarks...">
-      <button id="addBookmarkBtn">Add Bookmark</button>
-    </div>
-    <ul id="bookmarkList"></ul>
-    <div class="actions">
-      <button id="deleteBookmarkBtn">Delete Selected</button>
-      <button id="editBookmarkBtn">Edit Selected</button>
-    </div>
-  </div>
+    <div class="container">
+        <input type="text" id="searchInput" placeholder="Search bookmarks...">
+        <div class="autocomplete" id="autocompleteList"></div>
+        <div id="editModeIndicator"></div>
+        <input type="text" id="renameInput" placeholder="Enter new name..." style="display: none;">
+      </div>      
   <script src="popup.js"></script>
 </body>
 </html>
