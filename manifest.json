@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "QuickBookmark",
+  "version": "1.0",
+  "description": "A Chrome extension to manage bookmark interactions via keyboard shortcuts.",
+  "permissions": ["bookmarks"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/spaghetti_16px.png",
+      "48": "images/spaghetti_32px.png",
+      "128": "images/spaghetti_128px.png"
+    }
+  },
+  "icons": {
+    "16": "images/spaghetti_16px.png",
+    "48": "images/spaghetti_32px.png",
+    "128": "images/spaghetti_128px.png"
+  }
+}
