@@ -17,7 +17,7 @@ function extractBookmarks(bookmarkNodes) {
     if (node.children) {
       results.push(...extractBookmarks(node.children));
     } else {
-      results.push(node.title);
+      results.push({ title: node.title, url: node.url }); // Include URL in results
     }
   });
   return results;
@@ -32,56 +32,73 @@ searchInput.addEventListener("input", function () {
 
 function searchBookmarks(searchTerm) {
   const matchingBookmarks = bookmarks.filter((bookmark) =>
-    bookmark.toLowerCase().includes(searchTerm)
+    bookmark.title.toLowerCase().includes(searchTerm)
   );
-  const remainingBookmarks = bookmarks.slice(matchingBookmarks.length);
-  const topResults = matchingBookmarks.slice(0, 5);
-  const remainingResults = remainingBookmarks.slice(0, 5 - topResults.length);
-  return [...topResults, ...remainingResults];
+  if (matchingBookmarks.length < 5) {
+    const remainingBookmarks = bookmarks.filter(
+      (bookmark) => !bookmark.title.toLowerCase().includes(searchTerm)
+    );
+    matchingBookmarks.push(
+      ...remainingBookmarks.slice(0, 5 - matchingBookmarks.length)
+    );
+  }
+  return matchingBookmarks.slice(0, 5);
 }
 
 function renderAutocomplete(autocompleteResults) {
   autocompleteList.innerHTML = "";
   autocompleteResults.slice(0, 5).forEach((result, index) => {
-    // display the first 5 results
     const listItem = document.createElement("li");
 
+    // Create favicon element
+    const favicon = document.createElement("img");
+    favicon.src = new URL("/favicon.ico", result.url).href; // Get favicon URL
+    favicon.onerror = () => {
+      favicon.src = "default_icon.png";
+    }; // Use a default icon if favicon doesn't exist
+    favicon.classList.add("favicon"); // Add class for styling
+    listItem.appendChild(favicon);
+
+    // Truncate result title if it exceeds max length
     const maxLength = 50;
-    listItem.textContent =
-      result.length > maxLength
-        ? result.substring(0, maxLength) + "..."
-        : result;
+    const textNode = document.createTextNode(
+      result.title.length > maxLength
+        ? result.title.substring(0, maxLength) + "..."
+        : result.title
+    );
+    listItem.appendChild(textNode);
 
     listItem.addEventListener("click", () => {
-      navigateToBookmark(result);
+      navigateToBookmark(result.title);
     });
     if (index === selectedIndex) {
       listItem.classList.add("selected");
-      searchInput.value = result;
+      searchInput.value = result.title;
     }
     autocompleteList.appendChild(listItem);
   });
 }
 
 searchInput.addEventListener("keydown", function (event) {
-  const autocompleteResults = searchBookmarks(searchInput.value);
+  const autocompleteResults = searchBookmarks(searchInput.value.toLowerCase());
 
   if (event.key === "ArrowUp") {
+    // Up arrow
     if (selectedIndex > 0) {
       selectedIndex--;
     }
-    renderAutocomplete(autocompleteResults);
   } else if (event.key === "ArrowDown") {
-    if (selectedIndex < autocompleteList.children.length - 1) {
+    // Down arrow
+    if (selectedIndex < autocompleteResults.length - 1) {
       selectedIndex++;
     }
-    renderAutocomplete(autocompleteResults);
   } else if (event.key === "Enter") {
+    // Enter key
     if (selectedIndex >= 0) {
-      const selectedItem = autocompleteList.children[selectedIndex];
-      navigateToBookmark(selectedItem.textContent);
+      navigateToBookmark(autocompleteResults[selectedIndex].url);
     }
   }
+  renderAutocomplete(autocompleteResults);
 });
 
 function navigateToBookmark(bookmarkTitle) {
