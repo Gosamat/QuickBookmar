@@ -1,12 +1,18 @@
 # QuickBookmark
 
-Chrome extensions that allows you to quickly access and navigate through your bookmarks. Inspired by Arc Browser and the brilliant Excalibur plugin for premiere pro
+QuickBookmark is a Chrome extension designed to streamline your bookmark navigation experience. Taking inspiration from Arc Browser and the ingenious Excalibur plugin for Premiere Pro, it provides convenient features to enhance your browsing efficiency.
 
-Feature list: 
+## Features
 
-1- quickly navigate and open bookmarks - DONE
-2- Quickly edit your bookmark names and delete them 
-3- quickly allow search in specific domains such as youtube, google, chatgpt
-4- allow opening of bookmarks in a fully separate window or by splitting current view per user decision
+1. [x] **Quick Navigation:** Easily access and open your bookmarks with speed and efficiency.
+2. **Bookmark Management:** Edit bookmark names and delete them swiftly to keep your collection organized.
+3. **Domain-Specific Search:** Enable quick searches within specific domains like YouTube, Google, or ChatGPT.
+4. **Flexible Viewing Options:** Choose to open bookmarks in a fully separate window or split the current view, according to your preference.
 
-<a href="https://www.flaticon.com/free-icons/pasta" title="pasta icons">Pasta icons created by Freepik - Flaticon</a>
+## Credits
+
+- **Pasta Icons:** Icons used in the extension are created by Freepik from Flaticon.
+
+---
+
+Feel free to contribute to the project or provide feedback to enhance the QuickBookmark experience!
