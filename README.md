@@ -15,4 +15,4 @@ QuickBookmark is a Chrome extension designed to streamline your bookmark navigat
 
 ---
 
-Feel free to contribute to the project or provide feedback to enhance the QuickBookmark experience!
+Feel free to provide feedback to enhance the QuickBookmark experience!
