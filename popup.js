@@ -105,13 +105,31 @@ function navigateToBookmark(bookmarkTitle) {
   chrome.bookmarks.search(bookmarkTitle, function (results) {
     if (results.length > 0) {
       const bookmarkUrl = results[0].url;
+      const bookmarkUrlWithoutProtocol = bookmarkUrl.replace(
+        /^https?:\/\//,
+        ""
+      );
 
-      chrome.tabs.query({ url: bookmarkUrl }, function (tabs) {
-        if (tabs.length > 0) {
-          chrome.tabs.update(tabs[0].id, { active: true });
-        } else {
-          chrome.tabs.create({ url: bookmarkUrl });
+      chrome.tabs.query({}, function (tabs) {
+        for (let i = 0; i < tabs.length; i++) {
+          if (tabs[i].url) {
+            const tabUrlWithoutProtocol = tabs[i].url.replace(
+              /^https?:\/\//,
+              ""
+            );
+            if (
+              tabs[i].url === bookmarkUrl ||
+              tabUrlWithoutProtocol === bookmarkUrlWithoutProtocol
+            ) {
+              chrome.tabs.update(tabs[i].id, { active: true });
+              window.close();
+              return;
+            }
+            window.close();
+          }
         }
+        chrome.tabs.create({ url: bookmarkUrl });
+        window.close();
       });
     }
   });
