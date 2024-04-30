@@ -3,6 +3,7 @@ const autocompleteList = document.getElementById("autocompleteList");
 
 let bookmarks = [];
 let selectedIndex = -1;
+let autocompleteResults = [];
 
 // Get bookmarks on load
 chrome.bookmarks.getTree(function (bookmarksTree) {
@@ -25,7 +26,7 @@ function extractBookmarks(bookmarkNodes) {
 
 searchInput.addEventListener("input", function () {
   const searchTerm = searchInput.value.toLowerCase();
-  const autocompleteResults = searchBookmarks(searchTerm);
+  autocompleteResults = searchBookmarks(searchTerm);
   renderAutocomplete(autocompleteResults);
   selectedIndex = -1;
 });
@@ -80,8 +81,6 @@ function renderAutocomplete(autocompleteResults) {
 }
 
 searchInput.addEventListener("keydown", function (event) {
-  const autocompleteResults = searchBookmarks(searchInput.value.toLowerCase());
-
   if (event.key === "ArrowUp") {
     // Up arrow
     if (selectedIndex > 0) {
