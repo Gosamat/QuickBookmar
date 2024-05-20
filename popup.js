@@ -1,3 +1,7 @@
+// Create a style element for dynamic styles
+const style = document.createElement("style");
+document.head.appendChild(style);
+
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const autocompleteList = document.getElementById("autocompleteList");
@@ -7,10 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let bookmarks = [];
   let selectedIndex = -1;
   let autocompleteResults = [];
-
-  // Create a style element for dynamic styles
-  const style = document.createElement("style");
-  document.head.appendChild(style);
 
   // Apply stored colors
   chrome.storage.sync.get(["backgroundColor", "highlightColor"], (result) => {
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   chrome.bookmarks.getTree(function (bookmarksTree) {
     searchInput.focus();
     bookmarks = extractBookmarks(bookmarksTree[0].children);
+    autocompleteResults = bookmarks;
     renderAutocomplete(bookmarks);
   });
 
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (node.children) {
         results.push(...extractBookmarks(node.children));
       } else {
-        results.push({ title: node.title, url: node.url }); // Include URL in results
+        results.push({ title: node.title, url: node.url });
       }
     });
     return results;
@@ -75,14 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Create favicon element
       const favicon = document.createElement("img");
-      favicon.src = new URL("/favicon.ico", result.url).href; // Get favicon URL
+      favicon.src = new URL("/favicon.ico", result.url).href;
       favicon.onerror = () => {
         favicon.src = "default_icon.png";
-      }; // Use a default icon if favicon doesn't exist
-      favicon.classList.add("favicon"); // Add class for styling
+      };
+      favicon.classList.add("favicon");
       listItem.appendChild(favicon);
 
-      // Truncate result title if it exceeds max length
       const maxLength = 50;
       const textNode = document.createTextNode(
         result.title.length > maxLength
@@ -98,33 +98,37 @@ document.addEventListener("DOMContentLoaded", () => {
         listItem.classList.add("selected");
         searchInput.value = result.title;
         searchInput.selectionStart = searchInput.selectionEnd =
-          searchInput.value.length; // Move cursor to end
+          searchInput.value.length;
       }
       autocompleteList.appendChild(listItem);
     });
   }
 
   searchInput.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowUp") {
-      // Up arrow
-      if (selectedIndex > 0) {
-        selectedIndex--;
+    if (
+      searchInput === document.activeElement &&
+      autocompleteResults.length > 0
+    ) {
+      if (event.key === "ArrowUp") {
+        if (selectedIndex > 0) {
+          selectedIndex--;
+        }
+        event.preventDefault();
+      } else if (event.key === "ArrowDown") {
+        console.log(autocompleteResults);
+        if (selectedIndex < autocompleteResults.length - 1) {
+          selectedIndex++;
+        }
+        event.preventDefault();
+      } else if (event.key === "Enter") {
+        // Enter key
+        if (selectedIndex >= 0) {
+          navigateToBookmark(autocompleteResults[selectedIndex].url);
+        }
+        event.preventDefault();
       }
-      event.preventDefault(); // Prevent default up arrow behavior
-    } else if (event.key === "ArrowDown") {
-      // Down arrow
-      if (selectedIndex < autocompleteResults.length - 1) {
-        selectedIndex++;
-      }
-      event.preventDefault(); // Prevent default down arrow behavior
-    } else if (event.key === "Enter") {
-      // Enter key
-      if (selectedIndex >= 0) {
-        navigateToBookmark(autocompleteResults[selectedIndex].url);
-      }
-      event.preventDefault(); // Prevent default enter behavior
+      renderAutocomplete(autocompleteResults);
     }
-    renderAutocomplete(autocompleteResults);
   });
 
   function navigateToBookmark(bookmarkUrl) {
@@ -147,21 +151,4 @@ document.addEventListener("DOMContentLoaded", () => {
       window.close();
     });
   }
-
-  // Save colors
-  backgroundColorInput.addEventListener("input", () => {
-    const backgroundColor = backgroundColorInput.value;
-    style.innerHTML += `
-      .search-container { background-color: ${backgroundColor}; }
-      .search-bar { background-color: ${backgroundColor}; }
-      .autocomplete-list { background-color: ${backgroundColor}; }
-    `;
-    chrome.storage.sync.set({ backgroundColor });
-  });
-
-  highlightColorInput.addEventListener("input", () => {
-    const highlightColor = highlightColorInput.value;
-    style.innerHTML += `.autocomplete-list li.selected { background-color: ${highlightColor}; }`;
-    chrome.storage.sync.set({ highlightColor });
-  });
 });
