@@ -15,7 +15,7 @@ chrome.commands.onCommand.addListener(function (command) {
           url: "popup.html",
           type: "popup",
           width: 500,
-          height: 270,
+          height: 260,
           left: left,
           top: top,
         });

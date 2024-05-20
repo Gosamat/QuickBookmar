@@ -3,7 +3,7 @@
   "name": "QuickBookmark",
   "version": "1.0",
   "description": "Search and open bookmarks with a keyboard shortcut",
-  "permissions": ["bookmarks"],
+  "permissions": ["bookmarks", "storage"],
   "background": {
     "service_worker": "background.js"
   },
@@ -17,8 +17,14 @@
     }
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "options.html",
+    "default_icon": {
+      "16": "images/spaghetti_16px.png",
+      "48": "images/spaghetti_32px.png",
+      "128": "images/spaghetti_128px.png"
+    }
   },
+  "options_page": "options.html",
   "icons": {
     "16": "images/spaghetti_16px.png",
     "48": "images/spaghetti_32px.png",
