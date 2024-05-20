@@ -9,13 +9,23 @@
   <body>
     <div class="options-container">
       <h1>QuickBookmark Options</h1>
-      <div class="option">
-        <label for="background-color">Background Color:</label>
-        <input type="color" id="background-color" name="background-color" />
+      <div class="accordion">
+        <button class="accordion-btn">Background Color</button>
+        <div class="accordion-panel">
+          <div class="option color-picker">
+            <input type="color" id="background-color" name="background-color" />
+            <div class="color-preview" id="background-preview"></div>
+          </div>
+        </div>
       </div>
-      <div class="option">
-        <label for="highlight-color">Highlight Color:</label>
-        <input type="color" id="highlight-color" name="highlight-color" />
+      <div class="accordion">
+        <button class="accordion-btn">Highlight Color</button>
+        <div class="accordion-panel">
+          <div class="option color-picker">
+            <input type="color" id="highlight-color" name="highlight-color" />
+            <div class="color-preview" id="highlight-preview"></div>
+          </div>
+        </div>
       </div>
       <div class="option">
         <a href="https://ko-fi.com/yourprofile" target="_blank">
